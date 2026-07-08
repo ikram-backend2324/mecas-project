@@ -1,0 +1,62 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block nav_apply %}active{% endblock %}
+{% block title %}{% t "cr.title" %} — NUBEL{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel">
+    <h1 class="page-title">{% t "cr.title" %}</h1>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+
+      <div class="form-grid">
+        <div class="field"><label>{% t "cr.programme" %}</label>{{ form.programme }}
+          {% if form.programme.errors %}<ul class="errorlist">{% for e in form.programme.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+        <div class="field"><label>{% t "f.faculty" %}</label>{{ form.faculty }}
+          {% if form.faculty.errors %}<ul class="errorlist">{% for e in form.faculty.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+
+        <div class="field"><label>{% t "f.first" %}</label>{{ form.first_name }}
+          {% if form.first_name.errors %}<ul class="errorlist">{% for e in form.first_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+        <div class="field"><label>{% t "f.last" %}</label>{{ form.last_name }}
+          {% if form.last_name.errors %}<ul class="errorlist">{% for e in form.last_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+
+        <div class="field"><label>{% t "f.middle" %}</label>{{ form.middle_name }}
+          {% if form.middle_name.errors %}<ul class="errorlist">{% for e in form.middle_name.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+        <div class="field"><label>{% t "f.dob" %}</label>{{ form.date_of_birth }}
+          {% if form.date_of_birth.errors %}<ul class="errorlist">{% for e in form.date_of_birth.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+
+        <div class="field"><label>{% t "f.passport_no" %}</label>{{ form.passport_number }}
+          {% if form.passport_number.errors %}<ul class="errorlist">{% for e in form.passport_number.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+        <div class="field"></div>
+
+        <div class="field"><label>{% t "f.phone" %}</label>{{ form.phone_number }}
+          {% if form.phone_number.errors %}<ul class="errorlist">{% for e in form.phone_number.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+        <div class="field"><label>{% t "f.email" %}</label>{{ form.email }}
+          {% if form.email.errors %}<ul class="errorlist">{% for e in form.email.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}</div>
+      </div>
+
+      <h3 style="color:var(--navy);margin:30px 0 6px;font-size:18px">{% t "cr.docs" %}</h3>
+      <div class="uploads">
+        <div class="upload-field"><label>{% t "cr.passport" %}</label>
+          <div class="upload-box"><div class="plus">+</div>{{ form.passport_file }}
+            {% if form.passport_file.errors %}<div class="errorlist">{{ form.passport_file.errors|striptags }}</div>{% endif %}</div></div>
+        <div class="upload-field"><label>{% t "cr.transcript" %}<br><small>{% t "cr.transcript_note" %}</small></label>
+          <div class="upload-box"><div class="plus">+</div>{{ form.diploma_transcript }}
+            {% if form.diploma_transcript.errors %}<div class="errorlist">{{ form.diploma_transcript.errors|striptags }}</div>{% endif %}</div></div>
+        <div class="upload-field"><label>{% t "cr.cert" %}</label>
+          <div class="upload-box"><div class="plus">+</div>{{ form.school_certificate }}
+            {% if form.school_certificate.errors %}<div class="errorlist">{{ form.school_certificate.errors|striptags }}</div>{% endif %}</div></div>
+        <div class="upload-field"><label>{% t "cr.photo" %}</label>
+          <div class="upload-box"><div class="plus">+</div>{{ form.photo }}
+            {% if form.photo.errors %}<div class="errorlist">{{ form.photo.errors|striptags }}</div>{% endif %}</div></div>
+        <div class="upload-field"><label>{% t "cr.extra" %}<br><small>{% t "cr.extra_note" %}</small></label>
+          <div class="upload-box"><div class="plus">+</div>{{ form.certificate }}
+            {% if form.certificate.errors %}<div class="errorlist">{{ form.certificate.errors|striptags }}</div>{% endif %}</div></div>
+      </div>
+
+      <div class="form-actions"><button type="submit" class="btn btn-green">{% t "cr.save" %}</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

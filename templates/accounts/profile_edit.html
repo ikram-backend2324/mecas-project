@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block nav_profile %}active{% endblock %}
+{% block title %}{% t "prof.edit" %} — NUBEL{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel" style="max-width:720px">
+    <h2 class="page-title">{% t "prof.edit" %}</h2>
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      <div class="field" style="margin-bottom:22px">
+        <label>{% t "prof.photo" %}</label>
+        <div class="profile-head" style="margin-bottom:14px">
+          {% if form.instance.photo %}
+            <img src="{{ form.instance.photo.url }}" class="avatar" alt="">
+          {% else %}
+            <div class="avatar-fallback">{{ form.instance.display_name|first|upper }}</div>
+          {% endif %}
+          <div>{{ form.photo }}
+            {% if form.photo.errors %}<ul class="errorlist">{% for e in form.photo.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field"><label>{{ form.first_name.label }}</label>{{ form.first_name }}</div>
+        <div class="field"><label>{{ form.last_name.label }}</label>{{ form.last_name }}</div>
+        <div class="field"><label>{{ form.email.label }}</label>{{ form.email }}</div>
+        <div class="field"><label>{{ form.phone_number.label }}</label>{{ form.phone_number }}</div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-green">{% t "prof.save" %}</button>
+        <a href="{% url 'accounts:profile' %}" class="btn btn-outline">{% t "prof.cancel" %}</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block title %}{% t "rc.title" %} — {{ application.unique_code }}{% endblock %}
+
+{% block content %}
+<div class="receipt">
+  <div class="receipt-head">
+    <div>
+      <h2>{% t "rc.title" %}</h2>
+      <p>{% t "footer.univ" %}</p>
+    </div>
+    <span class="badge-status b-{{ application.status_color }}">{% status_label application.status %}</span>
+  </div>
+  <div class="receipt-body">
+    <div class="code-box">
+      <div class="lbl">{% t "f.code" %}</div>
+      <div class="code">{{ application.unique_code }}</div>
+    </div>
+    <div class="receipt-flex">
+      <div class="details">
+        <div class="dl">
+          <div class="row"><span class="k">{% t "f.fio" %}</span><span class="v">{{ application.full_name }}</span></div>
+          <div class="row"><span class="k">{% t "f.programme" %}</span><span class="v">{{ application.programme }}</span></div>
+          <div class="row"><span class="k">{% t "f.faculty" %}</span><span class="v">{{ application.faculty }}</span></div>
+          <div class="row"><span class="k">{% t "cr.passport" %}</span><span class="v">{{ application.passport_number }}</span></div>
+          <div class="row"><span class="k">{% t "f.phone_short" %}</span><span class="v">{{ application.phone_number }}</span></div>
+          <div class="row"><span class="k">{% t "f.date" %}</span><span class="v">{{ application.created_at|date:"d.m.Y H:i" }}</span></div>
+        </div>
+      </div>
+      <div class="qr"><img src="{{ qr }}" alt="QR"><small>{% t "vf.title" %}</small></div>
+    </div>
+    <div class="receipt-note">⚠️ {% t "rc.note" code=application.unique_code %}</div>
+  </div>
+</div>
+
+<div class="print-actions">
+  <button onclick="window.print()" class="btn btn-green">🖨️ {% t "rc.print" %}</button>
+  <a href="{% url 'accounts:profile' %}" class="btn btn-outline">{% t "rc.back" %}</a>
+</div>
+{% endblock %}

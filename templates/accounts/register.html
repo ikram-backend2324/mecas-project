@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block title %}{% t "reg.title" %} — NUBEL{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="panel auth-card">
+    <h2 class="page-title">{% t "reg.title" %}</h2>
+    <p class="sub">{% t "reg.sub" %}</p>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field" style="margin-bottom:18px">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+          {% if field.errors %}<ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-green btn-block">{% t "reg.submit" %}</button>
+    </form>
+    <div class="auth-alt">{% t "reg.have" %} <a href="{% url 'accounts:login' %}">{% t "nav.login" %}</a></div>
+  </div>
+</div>
+{% endblock %}

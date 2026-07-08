@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block nav_profile %}active{% endblock %}
+{% block title %}{% t "nav.profile" %} — NUBEL{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel">
+    <div class="profile-head">
+      {% if profile_user.photo %}
+        <img src="{{ profile_user.photo.url }}" class="avatar" alt="">
+      {% else %}
+        <div class="avatar-fallback">{{ profile_user.display_name|first|upper }}</div>
+      {% endif %}
+      <div>
+        <h1>{{ profile_user.display_name }}</h1>
+        <p class="muted">@{{ profile_user.username }}</p>
+        <div style="margin-top:14px">
+          <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline btn-sm">{% t "prof.edit" %}</a>
+        </div>
+      </div>
+    </div>
+    <div class="info-list">
+      <div class="row"><span class="k">{% t "f.first" %}</span><span class="v">{{ profile_user.first_name|default:"—" }}</span></div>
+      <div class="row"><span class="k">{% t "f.last" %}</span><span class="v">{{ profile_user.last_name|default:"—" }}</span></div>
+      <div class="row"><span class="k">{% t "f.email" %}</span><span class="v">{{ profile_user.email|default:"—" }}</span></div>
+      <div class="row"><span class="k">{% t "f.phone_short" %}</span><span class="v">{{ profile_user.phone_number|default:"—" }}</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 class="page-title">{% t "prof.myapp" %}</h2>
+    {% if application %}
+      <div class="info-list" style="border-top:none">
+        <div class="row"><span class="k">{% t "f.code" %}</span>
+          <span class="v" style="font-family:monospace;letter-spacing:1px;color:var(--navy)">{{ application.unique_code }}</span></div>
+        <div class="row"><span class="k">{% t "f.programme" %}</span><span class="v">{{ application.programme }}</span></div>
+        <div class="row"><span class="k">{% t "f.faculty" %}</span><span class="v">{{ application.faculty }}</span></div>
+        <div class="row"><span class="k">{% t "f.status" %}</span>
+          <span class="v"><span class="badge-status b-{{ application.status_color }}">{% status_label application.status %}</span></span></div>
+        <div class="row"><span class="k">{% t "f.date" %}</span><span class="v">{{ application.created_at|date:"d.m.Y H:i" }}</span></div>
+      </div>
+      <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="{% url 'applications:receipt' application.unique_code %}" class="btn btn-primary">{% t "prof.viewcheck" %}</a>
+      </div>
+    {% else %}
+      <p class="muted" style="margin-bottom:18px">{% t "prof.noapp" %}</p>
+      <a href="{% url 'applications:create' %}" class="btn btn-green">{% t "nav.apply" %}</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

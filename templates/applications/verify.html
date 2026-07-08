@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% load nubel_i18n %}
+{% block title %}{% t "vf.title" %} — {{ application.unique_code }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel" style="max-width:560px">
+    <h2 class="page-title">{% t "vf.title" %}</h2>
+    <div class="code-box">
+      <div class="lbl">{% t "f.code" %}</div>
+      <div class="code">{{ application.unique_code }}</div>
+    </div>
+    <div class="dl">
+      <div class="row"><span class="k">{% t "f.fio" %}</span><span class="v">{{ application.full_name }}</span></div>
+      <div class="row"><span class="k">{% t "f.programme" %}</span><span class="v">{{ application.programme }}</span></div>
+      <div class="row"><span class="k">{% t "f.faculty" %}</span><span class="v">{{ application.faculty }}</span></div>
+      <div class="row"><span class="k">{% t "f.status" %}</span>
+        <span class="v"><span class="badge-status b-{{ application.status_color }}">{% status_label application.status %}</span></span></div>
+      <div class="row"><span class="k">{% t "f.date" %}</span><span class="v">{{ application.created_at|date:"d.m.Y" }}</span></div>
+    </div>
+    <p class="help" style="margin-top:18px">✅ {% t "vf.valid" %}</p>
+  </div>
+</div>
+{% endblock %}

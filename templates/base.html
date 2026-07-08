@@ -1,0 +1,81 @@
+{% load static %}{% load nubel_i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}NUBEL — {% t "brand.subtitle" %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span class="tb-phone">📞 {% t "topbar.phone" %}: (61) 222-49-10</span>
+      <div class="tb-right">
+        <span class="tb-tag">{% t "topbar.tagline" %}</span>
+        <span class="lang-switch">
+          <a href="{% url 'applications:set_lang' 'uz' %}"
+             class="{% if LANG == 'uz' %}active{% endif %}">UZ</a>
+          <a href="{% url 'applications:set_lang' 'ru' %}"
+             class="{% if LANG == 'ru' %}active{% endif %}">RU</a>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <div class="logo">NSTU</div>
+        <div class="titles">
+          <b>{% t "brand.title" %}</b>
+          <span>{% t "brand.subtitle" %}</span>
+        </div>
+      </div>
+      <div class="ribbon" title="O'zbekiston"></div>
+    </div>
+  </header>
+
+  <nav class="mainnav">
+    <div class="container">
+      <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.mainnav .container').classList.toggle('open')">☰</button>
+      <div class="nav-links">
+        <a href="{% url 'home' %}" class="{% block nav_home %}{% endblock %}">{% t "nav.home" %}</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'applications:create' %}" class="{% block nav_apply %}{% endblock %}">{% t "nav.apply" %}</a>
+          <a href="{% url 'accounts:profile' %}" class="{% block nav_profile %}{% endblock %}">{% t "nav.profile" %}</a>
+          {% if user.is_staff %}<a href="/admin/">{% t "nav.admin" %}</a>{% endif %}
+        {% endif %}
+      </div>
+      <div class="nav-user">
+        {% if user.is_authenticated %}
+          <a href="{% url 'accounts:profile' %}">👤 {{ user.display_name }}</a>
+          <a href="{% url 'accounts:logout' %}" class="btn btn-ghost btn-sm">{% t "nav.logout" %}</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}">{% t "nav.login" %}</a>
+          <a href="{% url 'accounts:register' %}" class="btn btn-ghost btn-sm">{% t "nav.register" %}</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© {% now "Y" %} {% t "footer.univ" %}</span>
+      <span>{% t "footer.tag" %}</span>
+    </div>
+  </footer>
+</body>
+</html>
